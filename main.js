@@ -1,5 +1,6 @@
 window.onload = function() {
     const calcText = document.getElementById("calc-result");
+    const keys = document.querySelectorAll('.btn');
     let calcValue = 0;
     let operation = "";
     function addInput(value) {
@@ -11,6 +12,81 @@ window.onload = function() {
         } else {
             let toAdd = `${currentText}${value}`
             calcText.innerText = toAdd;
+        }
+    }
+
+    function processClick(e) {
+        if (e.target.getAttribute('data-key') == null) {
+            let parent = e.target.parentNode;
+            processEvent(parent.getAttribute('data-key'));
+            //var value = e.parentNode.getAttribute('data-key');
+        } else {
+            var value = e.target.getAttribute('data-key');
+            processEvent(value);
+            console.log(value);
+        }
+    }
+
+    function processEvent(key) {
+        if (key == 27 || key == 46) {
+            clearAll();
+        }
+        //0-9 on keyboard
+        if (key == 96 || key == 48) {
+            addInput(0);
+        }
+        if (key == 49 || key == 97) {
+            addInput(1);
+        }
+        if (key == 50 || key == 98) {
+            addInput(2);
+        }
+        if (key == 51 || key == 99) {
+            addInput(3);
+        }
+        if (key == 52 || key == 100) {
+            addInput(4);
+        }
+        if (key == 53 || key == 101) {
+            addInput(5);
+        }
+        if (key == 54 || key == 102) {
+            addInput(6);
+        }
+        if (key == 55 || key == 103) {
+            addInput(7);
+        }
+        if (key == 56 || key == 104) {
+            addInput(8);
+        }
+        if (key == 57 || key == 105) {
+            addInput(9);
+        }
+        if (key ==  110 || key == 190) {
+            addInput(".");
+        }
+        //operators on the keyboard
+        //enter button
+        if (key == 13) {
+            doOperation();
+        }
+        //mathmatical
+        if (key == 111) {
+            divide();
+        }
+        if (key == 106) {
+            multiply();
+        }
+        if (key == 107) {
+            add();
+        }
+        if (key == 109) {
+            subtract();
+        }
+        if (key == "#") {
+            let value = calcText.innerText;
+            value = value * -1;
+            calcText.innerText = value;
         }
     }
 
@@ -75,62 +151,9 @@ window.onload = function() {
         }
     }
 
+    keys.forEach(key => key.addEventListener("click", processClick));
+
     window.addEventListener("keydown", function(e){
-        //clear button
-        if (e.keyCode == 27 || e.keyCode == 46) {
-            clearAll();
-        }
-        //0-9 on keyboard
-        if (e.keyCode == 96 || e.keyCode == 48) {
-            addInput(0);
-        }
-        if (e.keyCode == 49 || e.keyCode == 97) {
-            addInput(1);
-        }
-        if (e.keyCode == 50 || e.keyCode == 98) {
-            addInput(2);
-        }
-        if (e.keyCode == 51 || e.keyCode == 99) {
-            addInput(3);
-        }
-        if (e.keyCode == 52 || e.keyCode == 100) {
-            addInput(4);
-        }
-        if (e.keyCode == 53 || e.keyCode == 101) {
-            addInput(5);
-        }
-        if (e.keyCode == 54 || e.keyCode == 102) {
-            addInput(6);
-        }
-        if (e.keyCode == 55 || e.keyCode == 103) {
-            addInput(7);
-        }
-        if (e.keyCode == 56 || e.keyCode == 104) {
-            addInput(8);
-        }
-        if (e.keyCode == 57 || e.keyCode == 105) {
-            addInput(9);
-        }
-        if (e.keyCode ==  110 || e.keyCode == 190) {
-            addInput(".");
-        }
-        //operators on the keyboard
-        //enter button
-        if (e.keyCode == 13) {
-            doOperation();
-        }
-        //mathmatical
-        if (e.keyCode == 111) {
-            divide();
-        }
-        if (e.keyCode == 106) {
-            multiply();
-        }
-        if (e.keyCode == 107) {
-            add();
-        }
-        if (e.keyCode == 109) {
-            subtract();
-        }
+        processEvent(e.keyCode);
     });
 };
